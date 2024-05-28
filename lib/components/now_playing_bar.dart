@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:finamp/components/PlayerScreen/scrolling_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -59,7 +60,10 @@ class NowPlayingBar extends StatelessWidget {
                         ),
                         Dismissible(
                           key: const Key("NowPlayingBar"),
-                          direction: FinampSettingsHelper.finampSettings.disableGesture ? DismissDirection.none : DismissDirection.horizontal,
+                          direction:
+                              FinampSettingsHelper.finampSettings.disableGesture
+                                  ? DismissDirection.none
+                                  : DismissDirection.horizontal,
                           confirmDismiss: (direction) async {
                             if (direction == DismissDirection.endToStart) {
                               audioHandler.skipToNext();
@@ -102,11 +106,43 @@ class NowPlayingBar extends StatelessWidget {
                             onTap: () => Navigator.of(context)
                                 .pushNamed(PlayerScreen.routeName),
                             leading: AlbumImage(item: item),
-                            title: Text(
-                              snapshot.data!.mediaItem!.title,
-                              softWrap: false,
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
+                            title: LayoutBuilder(
+                              builder: (context, constraints) {
+                                final textPainter = TextPainter(
+                                  text: TextSpan(
+                                    text: snapshot.data!.mediaItem!.title,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  maxLines: 1,
+                                  textDirection: TextDirection.ltr,
+                                )..layout(maxWidth: constraints.maxWidth);
+
+                                final isOverflowing =
+                                    textPainter.didExceedMaxLines;
+
+                                return Container(
+                                  width: constraints.maxWidth,
+                                  child: isOverflowing
+                                      ? ScrollingText(
+                                          text: snapshot.data!.mediaItem!.title,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        )
+                                      : Text(
+                                          snapshot.data!.mediaItem!.title,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                );
+                              },
                             ),
                             subtitle: Text(
                               processArtist(
