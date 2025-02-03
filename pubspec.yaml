@@ -101,6 +101,8 @@ dependencies:
     window_manager: ^0.3.8
     url_launcher: ^6.2.6
     isar_generator: ^3.1.0+1
+    home_widget: ^0.7.0
+    shared_preferences: ^2.5.1
 
 # Fix for marquee dependency after Flutter 3.2.2 upgrade
 dependency_overrides:
