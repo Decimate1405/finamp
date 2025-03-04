@@ -1,0 +1,2 @@
+/home/decimat3/development/gitrepo/finamp/android/app/.cxx/Debug/4dg66221/x86/CMakeFiles/edit_cache.dir
+/home/decimat3/development/gitrepo/finamp/android/app/.cxx/Debug/4dg66221/x86/CMakeFiles/rebuild_cache.dir
